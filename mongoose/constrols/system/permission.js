@@ -3,9 +3,7 @@ const PermissionSchema = require('../../schema/system/permissions');
 const Permission = mongoose.model('permission',PermissionSchema);
 
 exports.addNewPermission = async (ctx,next)=>{
-    console.log("测试路由");
     var permission = ctx.request.body;
-    console.log('permission');
     var permissionName = permission.permissionName;
     var permissionLeve = permission.permissionLeve;
     var permissionDesc = permission.permissionDesc;
@@ -22,15 +20,36 @@ exports.addNewPermission = async (ctx,next)=>{
     var rs =await new Promise((resolve,reject)=>{
          Permission.find({permissionName:permissionName},(err,data)=>{
             if(err){return}
+ 
             if(data.length){
-                resolve(data);
+                resolve(data.length);
             }
         })
     })
+    // 如果已经存在,则不保存
+
+    if(rs){
+        console.log("查询结果");
+        console.log('已经有该权限,请勿重复添加成功了');
+        // ctx.body = {
+        //     message:'已经有该权限,请勿重复添加成功了',
+        //     success: false
+        // };
+        // await next();
+    }else{
+        p.save((err,data)=>{
+            if (err) return console.error(err);
+            console.log(data);
+        })
+    }
     ctx.body = {
-        message:'成功了',
-        success: true
+        message:'已经有该权限,请勿重复添加成功了',
+        success: false
     };
+    // ctx.body = {
+    //     message:'成功了',
+    //     success: true
+    // };
 }
 
 exports.showAllPermission = async (ctx)=>{
