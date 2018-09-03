@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const UserSchema = require('../schema/System/user');
 const jsonwebtoken = require('jsonwebtoken')
-const User = mongoose.model('user',UserSchema);
-
+const User = require('../../models/system/user');
+const Role = require('../../models/system/roles');
+const Permission = require('../../models/system/permissions')
 const crypto = require('crypto');
 //密钥
 const key = 'kemiLottery';
@@ -35,10 +35,47 @@ exports.signin = async (ctx)=>{
             })
         })
     if(rs){
+        /**
+         * 确认用户名和密码之后,根据用户里rolesId查询这些角色下面拥有的权限
+         */
+        // Role.findById()
+        var roles = [];//所有的角色信息
+        var permissionIDS = [];//权限id列表
+        for(var i=0;i<rs[0].roles.length;i++){
+            var roleId = rs[0].roles[i];
+            await Role.findById(roleId, function(err,adventrue){
+                if(err){
+                    console.log(err);
+                    return;
+                }else{
+                    // 获取角色信息
+                    roles.push(adventrue);
+                    //获取角色的所有权限
+                    for(var j=0;j<adventrue.permissions.length;j++){
+                        permissionIDS.push(adventrue.permissions[j]);
+                    }
+                }
+            })
+        }
+        var permissionList = [];
+        for(var i=0;i<permissionIDS.length;i++){
+            var permissionID = permissionIDS[i];
+            await Permission.findById(permissionID,function(err,p){
+                if(err){return}
+                else{
+                    permissionList.push(p);
+                }
+            })
+        }
+        var response = {
+            username: rs[0].username,
+            roles: roles,
+            permissions: permissionList
+        }
         ctx.status = 200;
         ctx.body = {
             message: '登录成功',
-            user: rs[0].username,
+            response: response,
             success: true,
             // 生成token返回给客户端
             token: jsonwebtoken.sign({

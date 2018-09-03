@@ -1,16 +1,9 @@
 const router = require('koa-router')();
-const User = require('../mongoose/constrols/user');
+const User = require('../mongoose/constrols/system/user');
+const Permission = require('../mongoose/constrols/system/permission');
 // console.log(User.signin);
 router.post('/signin',User.signin);
-// router.get('/index',async (ctx)=>{
-//     console.log(ctx.query);
-//     ctx.body = "hello World"
-// })
-// router.post('/signin',async (ctx)=>{
-//     console.log(ctx.request.body);
-//     // var db = mongoose.connection();
-//     ctx.body = ctx;
-// })
-
-
+// 在这里做token验证,往后的请求都会要求token
+router.post('/addNewPersmission',Permission.addNewPermission)
+router.post('/showAllPermission',Permission.showAllPermission)
 module.exports = router;

@@ -24,11 +24,10 @@
  */
 
  const Schema = require('../../config/mongoConfig');
-
  const UserSchema = new Schema({
      username: String,
      password: String,
-     roles: Array,  
+     roles: Array,
  })
 
 module.exports = UserSchema;

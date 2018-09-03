@@ -3,11 +3,20 @@ const Koa = require('koa')
 ,cors = require('koa-cors')();
 
 const app = new Koa();
+
+//处理post请求
+app.use(require('koa-bodyparser')())
 //引入koa-jwt
 const jwt = require('koa-jwt');
+
 // 解决401问题
 const errorHandle = require('./middleWares/errorHandle');
+const CheckApiToken = require('./middleWares/checkApiToken')
+
+// 使用cors中间件解决客户端跨域问题
+app.use(cors);
 app.use(errorHandle);
+
 //使用koa-jwt
 const secert = 'jwt_secret';
 // unless设置哪些api是不需要通过token验证的,也就是通畅所说的public api
@@ -16,15 +25,15 @@ const secert = 'jwt_secret';
 app.use(jwt({
       secert
     }).unless({
-      path: [/\/signin/]
+      path: [/^\/signin/]
     }))
-//处理post请求
-app.use(require('koa-bodyparser')())
+app.use(CheckApiToken);
+
+    
 var indexRouter = require('./routes/index')
 
-// 使用cors中间件解决客户端跨域问题
-app.use(cors);
 app.use(json);
+
 app.use(indexRouter.routes(),indexRouter.allowedMethods());
 
 

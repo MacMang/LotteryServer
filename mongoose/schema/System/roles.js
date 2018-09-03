@@ -13,3 +13,5 @@ const rolesSchema = new Schema({
     roleDesc: String,
     permissions: Array,
 })
+
+module.exports=rolesSchema;

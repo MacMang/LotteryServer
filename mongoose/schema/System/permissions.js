@@ -9,3 +9,14 @@
  *    sortNum: ''//排序号,根据这个来排序
  * }
  */ 
+
+ const Schema = require('../../config/mongoConfig.js');
+
+ const PermissionSchema = new Schema({
+    parentId: Number,
+    permissionName: String,
+    permissionLeve: Number,
+    permissionDesc: String,
+    sortNum: Number,
+})
+module.exports = PermissionSchema;
