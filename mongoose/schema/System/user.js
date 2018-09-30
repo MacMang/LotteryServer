@@ -14,7 +14,7 @@
  *                  permissionId:'1' //权限ID
  *                  permissionName: '最高管理员',
  *                  permissionLevel: 1, //权限的层级
- *                  parentId: 1,//父级权限的id
+ *                  parentid: 1,//父级权限的id
  *                 
  *              }
  *          ]

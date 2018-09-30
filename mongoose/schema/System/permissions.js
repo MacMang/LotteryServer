@@ -2,7 +2,7 @@
  * 权限
  * permission: {
  *    permissionId: '001',//权限的ID
- *    parentId: '001',    //父级权限的ID
+ *    parentid: '001',    //父级权限的ID
  *    permissionName: '', //权限名称
  *    permissionLeve: 1 , //权限等级
  *    permissionDesc: '', //权限描述
@@ -13,7 +13,7 @@
  const Schema = require('../../config/mongoConfig.js');
 
  const PermissionSchema = new Schema({
-    parentId: Number,
+    parentid: Object,
     permissionName: String,
     permissionLeve: Number,
     permissionDesc: String,
