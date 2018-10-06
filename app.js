@@ -19,9 +19,7 @@ app.use(async function(ctx, next) {
   console.log(`Process ${ctx.request.method} ${ctx.request.url}`);
   try {
     await next();
-    console.log('handler通过')
   } catch (err) {
-    console.log('handler处理错误')
     ctx.response.status = err.statusCode || err.status || 500;
     ctx.response.body = {
       message: err.message,
@@ -29,7 +27,6 @@ app.use(async function(ctx, next) {
     };
   }
 })
-console.log('jwt');
 //引入koa-jwt
 const jwt = require('koa-jwt');
 //使用koa-jwt
@@ -48,10 +45,10 @@ app.use(require('koa-bodyparser')())
 const errorHandle = require('./middleWares/errorHandle');
 app.use(errorHandle);
 var indexRouter = require('./routes/index')
+
 app.use(json);
 
 app.use(indexRouter.routes(),indexRouter.allowedMethods());
-
 
 //静态文件
 app.use(require('koa-static')(__dirname + '/public'));

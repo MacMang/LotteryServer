@@ -25,7 +25,6 @@ module.exports =  async (ctx,next) =>{
             }
         });
     })
-    console.log(rs);
     if(rs.success){
         ctx.state['key'] = rs.message; 
     }

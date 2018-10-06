@@ -4,7 +4,6 @@ const Permission = mongoose.model('permission',PermissionSchema);
 
 //新增权限
 exports.addNewPermission = async (ctx)=>{
-    console.log("新增权限");
     var permission = ctx.request.body;
     var permissionName = permission.permissionName;
     var permissionLeve = permission.permissionLeve;
@@ -12,7 +11,6 @@ exports.addNewPermission = async (ctx)=>{
     var sortNum = permission.sortNum;
     // var parentid = permission.parentid;
     var parentid = mongoose.Types.ObjectId(permission.parentid);
-    console.log(typeof parentid);
     const p =  new Permission({
                                 permissionName:permissionName,
                                 permissionLeve:permissionLeve,
@@ -24,13 +22,11 @@ exports.addNewPermission = async (ctx)=>{
     var rs =await new Promise((resolve,reject)=>{
          Permission.find({permissionName:permissionName},(err,data)=>{
             if(err){
-            console.log("查询出错");
              console.log(err);   
             return}
                 resolve(data.length);
         })
     })
-    console.log(rs);
     if(rs){
         ctx.body = {
             message:'已经有该权限,请勿重复添加成功了',
@@ -68,7 +64,7 @@ exports.showAllPermission = async (ctx,next)=>{
     })
     ctx.response.status = 200;
     ctx.body = {
-        message: '获取成功',
+        message: '获取所有权限成功',
         success: true,
         allPermission: rs
     }
@@ -76,18 +72,17 @@ exports.showAllPermission = async (ctx,next)=>{
 }
 //查看指定权限
 exports.findPermissionById = async (ctx,next) => {
-    console.log("函数被处罚");
     var rs = await new Promise((resolve,reject) => {
         var id = ctx.query.id;
         Permission.findById(id,function(err,data){
             if(err){return}
-            console.log(data);
             resolve(data);
         })
     })
+   
     ctx.response.status = 200;
     ctx.body = {
-        message: '数据获取成功',
+        message: '获取权限成功',
         success: true,
         permission: rs
     }
