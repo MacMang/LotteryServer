@@ -10,4 +10,8 @@ router.post('/updateRoleInfo',Role.updateRoleInfo);
 var systemRouter = require('./system/index');
 router.use("/system",systemRouter.routes(),systemRouter.allowedMethods())
 
+//彩票管理
+var gameManageRouter = require('./GameManage/index');
+// console.log(gameManageRouter);
+router.use('/gameManage',gameManageRouter.routes(),gameManageRouter.allowedMethods())
 module.exports = router;

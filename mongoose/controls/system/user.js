@@ -15,9 +15,13 @@ function encodePassword(value){
 }
 // 登录
 exports.signin = async (ctx)=>{
+    console.log("登录");
     let user = ctx.request.body;
     let username = user.accountName;
     let password = user.password;
+    console.log("登录用户名"+username);
+    console.log("登录密码"+password);
+    // console.log(password);
     //     var parentid = mongoose.Types.ObjectId(permission.parentid);
     var rs = await new Promise((resolve,reject)=>{
             User.find({username:username},(err,data)=>{
@@ -38,7 +42,7 @@ exports.signin = async (ctx)=>{
                 }
             })
         })
-    if(rs){
+    if(rs.length){
         /**
          * 确认用户名和密码之后,根据用户里rolesId查询这些角色下面拥有的权限
          */
@@ -52,6 +56,8 @@ exports.signin = async (ctx)=>{
                     console.log(err);
                     return;
                 }else{
+                    console.log("角色");
+                    console.log(adventrue);
                     // 获取角色信息
                     roles.push(adventrue);
                     //获取角色的所有权限
@@ -174,8 +180,6 @@ exports.updateUserInfo = async (ctx,next)=>{
             }
         })
     })
-    console.log("密码是");
-    console.log(password);
     var rs = await new Promise((resolve,reject)=>{
         User.update({_id:userInfo._id},{$set:{password:password,roles:roles}},(err,data)=>{
             if(err){
@@ -195,6 +199,31 @@ exports.updateUserInfo = async (ctx,next)=>{
     }else{
         ctx.body = {
             message: '账户信息更新失败',
+            success: false
+        }
+    }
+}
+exports.deleteUser = async (ctx,next)=>{
+    var userInfo = ctx.request.body;
+    var id = userInfo._id;
+    var rs = await new Promise((resolve,reject)=>{
+        User.remove({_id:id},(err,data)=>{
+            if(err) {
+                reject(err);
+                return;
+            }
+            resolve(data.ok)
+            return;
+        })
+    })
+    if(rs){
+        ctx.body = {
+            message: '删除账号成功',
+            success: true
+        }
+    }else{
+        ctx.body = {
+            message: '删除账号失败',
             success: false
         }
     }

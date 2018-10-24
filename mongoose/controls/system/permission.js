@@ -9,8 +9,14 @@ exports.addNewPermission = async (ctx)=>{
     var permissionLeve = permission.permissionLeve;
     var permissionDesc = permission.permissionDesc;
     var sortNum = permission.sortNum;
-    // var parentid = permission.parentid;
-    var parentid = mongoose.Types.ObjectId(permission.parentid);
+    // 判断传进来的是父级id是0还是长字符串
+    var parentid = Number(permission.parentid);
+    if(permission.parentid!='0'){
+        //如果不是0,则将parentid设置为ObjectId类型
+        parentid = mongoose.Types.ObjectId(permission.parentid);
+        console.log("parentid====="+parentid);
+    }
+    
     const p =  new Permission({
                                 permissionName:permissionName,
                                 permissionLeve:permissionLeve,
@@ -18,15 +24,20 @@ exports.addNewPermission = async (ctx)=>{
                                 sortNum:sortNum,
                                 parentid:parentid
                                 })
+    console.log("p对象");
+    console.log(p);
     //查看是否已经有该权限,如果有,则不再重新插入
     var rs =await new Promise((resolve,reject)=>{
+        console.log("开始查询权限列表");
          Permission.find({permissionName:permissionName},(err,data)=>{
             if(err){
              console.log(err);   
             return}
-                resolve(data.length);
+            console.log("查找到的结果");
+            resolve(data.length);
         })
     })
+    console.log("查询结果");
     if(rs){
         ctx.body = {
             message:'已经有该权限,请勿重复添加成功了',

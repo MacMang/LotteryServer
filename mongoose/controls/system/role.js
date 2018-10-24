@@ -72,3 +72,30 @@ exports.addNewRole = async (ctx)=>{
     }
 
 }
+
+exports.deleteRole = async (ctx)=>{
+    var roleInfo = ctx.request.body;
+    var _id = roleInfo._id;
+    var rs = await new Promise((resolve,reject)=>{
+        Role.remove({_id:_id},(err,data)=>{
+            if(err) {
+                reject(err);
+                return;
+            }
+            resolve(data.ok)
+            return;
+        })
+    })
+    if(rs){
+        ctx.body = {
+            message: '删除角色成功',
+            success: true
+        }
+    }else{
+        ctx.body = {
+            message: '删除角色失败',
+            success: false
+        }
+    }
+    
+}

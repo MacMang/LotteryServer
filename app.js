@@ -37,10 +37,11 @@ const secret = 'jwt_secret';
 //都会检查Header首部中的token,是否存在,是否有效,只有正确之后才能访问
 // app.use(CheckApiToken);
 app.use(jwt({secret}).unless({
-    path: [/^\/signin/] //数组中的路径不需要通过jwt验证
+    path: [/^\/signin/,/^\/images/] //数组中的路径不需要通过jwt验证
 }))
 //处理post请求
 app.use(require('koa-bodyparser')())
+
 // 解决401问题
 const errorHandle = require('./middleWares/errorHandle');
 app.use(errorHandle);
