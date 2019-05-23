@@ -1,7 +1,7 @@
 const Koa = require('koa')
 ,json = require('koa-json')()
 ,cors = require('koa-cors')();
-
+const path = require('path');
 const app = new Koa();
 
 // 使用cors中间件解决客户端跨域问题
@@ -41,7 +41,19 @@ app.use(jwt({secret}).unless({
 }))
 //处理post请求
 app.use(require('koa-bodyparser')())
-
+const koaBody = require('koa-body');
+app.use(koaBody({
+  multipart:true, // 支持文件上传
+  encoding:'gzip',
+  formidable:{
+    uploadDir:path.join(__dirname,'public/images/'), // 设置文件上传目录
+    keepExtensions: true,    // 保持文件的后缀
+    maxFieldsSize:2 * 1024 * 1024, // 文件上传大小
+    onFileBegin:(name,file) => { // 文件上传前的设置
+      file.path =path.join(__dirname,'public/images/'+file.name)
+    },
+  }
+}));
 // 解决401问题
 const errorHandle = require('./middleWares/errorHandle');
 app.use(errorHandle);
