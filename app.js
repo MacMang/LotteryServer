@@ -40,11 +40,11 @@ app.use(jwt({secret}).unless({
     path: [/^\/signin/,/^\/images/] //数组中的路径不需要通过jwt验证
 }))
 //处理post请求
-app.use(require('koa-bodyparser')())
+// app.use(require('koa-bodyparser')())
 const koaBody = require('koa-body');
 app.use(koaBody({
   multipart:true, // 支持文件上传
-  encoding:'gzip',
+  // encoding:'gzip',
   formidable:{
     uploadDir:path.join(__dirname,'public/images/'), // 设置文件上传目录
     keepExtensions: true,    // 保持文件的后缀
