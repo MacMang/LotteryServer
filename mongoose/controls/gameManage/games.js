@@ -21,9 +21,8 @@ exports.addNewGame = async (ctx)=>{
     /**
      * icon要先进行上传,上传成功之后再去获取上传后的图片地址,然后存储到数据库中
      */
-    var imagesIndex = ctx.request.files.file[0].path.indexOf('/images')
-    var icon =ctx.request.files.file[0].path.slice(imagesIndex,ctx.request.files.file[0].path.length);
-    var icon2 = ctx.request.files.file[1].path.slice(imagesIndex,ctx.request.files.file[1].path.length);
+    var icon =ctx.request.files.file[0].shortPath;
+    var icon2 = ctx.request.files.file[1].shortPath;
     var myid = mongoose.Types.ObjectId('5bc80177de1e2be9de5518ec');
     /**
      * 逻辑:

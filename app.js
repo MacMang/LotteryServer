@@ -50,7 +50,8 @@ app.use(koaBody({
     keepExtensions: true,    // 保持文件的后缀
     maxFieldsSize:2 * 1024 * 1024, // 文件上传大小
     onFileBegin:(name,file) => { // 文件上传前的设置
-      file.path =path.join(__dirname,'public/images/'+file.name)
+      file.path =path.join(__dirname,'public/images/'+file.name);
+      file.shortPath = '/images/'+file.name;
     },
   }
 }));
