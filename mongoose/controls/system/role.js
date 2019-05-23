@@ -102,3 +102,19 @@ exports.deleteRole = async (ctx)=>{
     }
     
 }
+
+exports.findRoleById= async (ctx)=>{
+    var query = ctx.request.query;
+    var id = query.id;
+    console.log("查询角色");
+    var rs = await new Promise((resolve,reject)=>{
+        Role.find({_id:id}).then(((resp)=>{
+            console.log(resp);
+            resolve(resp);
+        }))
+    })
+    ctx.body = {
+        success:true,
+        data:rs
+    }
+}
