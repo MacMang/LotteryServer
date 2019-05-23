@@ -164,7 +164,8 @@ exports.updateUserInfo = async (ctx,next)=>{
     console.log(userInfo);
     const username = userInfo.username;
     const roles = userInfo.roles;
-    // const password = userInfo.password;
+    // 要对传递过来的密码进行加密
+    const newPassword = encodePassword(userInfo.password);
     // 由于密码是本身是加密过了的,因此如果只是更新角色,就会导致密码被加密两次,因此需要先判断密码本身是否已经存在
     var password = await new Promise((resolve,reject)=>{
         User.find({username:username},(err,data)=>{
@@ -184,7 +185,7 @@ exports.updateUserInfo = async (ctx,next)=>{
         })
     })
     var rs = await new Promise((resolve,reject)=>{
-        User.update({_id:userInfo._id},{$set:{password:password,roles:roles}},(err,data)=>{
+        User.update({_id:userInfo._id},{$set:{password:newPassword,roles:roles}},(err,data)=>{
             if(err){
                 console.log(err);
                 reject(err);
