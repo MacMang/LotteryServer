@@ -12,10 +12,12 @@ function getIp() {
   return 'http://'+ip+":3000"
 }
 exports.addNewGame = async (ctx)=>{
+    console.log("新增玩法");
     //更新 "games":[]
     // console.log(ctx.request.body);
     var en = ctx.request.body.en;
     var cn = ctx.request.body.cn;
+    console.log("en",en,"cn",cn);
     /**
      * icon要先进行上传,上传成功之后再去获取上传后的图片地址,然后存储到数据库中
      */
@@ -23,6 +25,8 @@ exports.addNewGame = async (ctx)=>{
     var icon = getIp()+ctx.request.files.file[0].path.slice(imagesIndex,ctx.request.files.file[0].path.length);
     var icon2 = getIp()+ctx.request.files.file[1].path.slice(imagesIndex,ctx.request.files.file[1].path.length);
     var myid = mongoose.Types.ObjectId('5bc80177de1e2be9de5518ec');
+    console.log(icon);
+    console.log(icon2);
     /**
      * 逻辑:
      * 判断数据库中是否有相同的数据,如果相同的数据,直接更新数据即可,无需重新压栈
@@ -74,6 +78,7 @@ exports.addNewGame = async (ctx)=>{
     }
     
 }
+
 // 查询所有的彩种
 exports.findAllGames = async (ctx,next)=>{
     var rs = await new Promise((resolve,reject)=>{
@@ -94,11 +99,33 @@ exports.findAllGames = async (ctx,next)=>{
     }
     next();
 }
-
+const baseModel = require("../../models/gameManage/baseModel");
 //根据彩种名称获取彩种的数据
 exports.findByGameName = async (ctx,next)=>{
-    var gameName = ctx.body.gameName;
-    var rs = new Promise((resolve,reject)=>{
-
+    const query = ctx.request.query;
+    var gameName = query.gameName;
+    var pageSize = parseInt(query.pageSize);
+    var pageNo = parseInt(query.pageNo);
+    var rs = await new Promise((resolve,reject)=>{
+        baseModel[gameName].find({}).then((resp)=>{
+            //获取当前表的文章总数
+            var data = resp[0].data.slice(pageNo*pageSize,(pageNo+1)*pageSize);
+            var obj = {
+                _id:resp[0]._id,
+                data:data,
+                total:200,
+                currentPage:pageNo,
+                hotcold:resp[0].hotCold
+            }
+            resolve(obj)
+        })
     })  
+    console.log(rs);
+      //响应前端数据
+    ctx.body =  {
+        code: 200,
+        message: `查询${gameName}成功`,
+        data:rs,
+        total: rs.total
+    };;
 }

@@ -11,6 +11,7 @@ function encodePassword(value){
     let hmac = crypto.createHmac('sha256',key);
     hmac.update(value);
     let passwordHex = hmac.digest('hex');
+    console.log("密码是",passwordHex);
     return passwordHex
 }
 // 登录
@@ -26,6 +27,7 @@ exports.signin = async (ctx)=>{
     var rs = await new Promise((resolve,reject)=>{
             User.find({username:username},(err,data)=>{
                 if(err){
+                    console.log("错误",err);
                     reject(err);
                 }else{
                     if(data.length == 0){
@@ -33,6 +35,7 @@ exports.signin = async (ctx)=>{
                     }else{
                         // 对传递过来的用户数据进行二次加密
                         let passwordHex = encodePassword(password);
+                        console.log("data[0].password",data[0].password);
                         if(data[0].password == passwordHex){
                             resolve(data);
                         }else{

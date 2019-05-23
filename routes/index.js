@@ -1,8 +1,8 @@
 const router = require('koa-router')();
 const User = require('../mongoose/controls/system/user');
 const Role = require('../mongoose/controls/system/role');
-// console.log(User.signin);
-router.post('/signin',User.signin);
+console.log(User.signin);
+var rs = router.post('/signin',User.signin);
 // 在这里做token验证,往后的请求都会要求token
 router.post('/updateRoleInfo',Role.updateRoleInfo);
 

@@ -16,6 +16,7 @@ exports.updateRoleInfo = async (ctx) => {
 }
 
 exports.findAllRoles = async (ctx,next)=>{
+    console.log("查询所有角色");
     var rs = await new Promise((resolve,reject)=>{
         Role.find({},(err,data)=>{
             if(err){return}
@@ -74,8 +75,10 @@ exports.addNewRole = async (ctx)=>{
 }
 
 exports.deleteRole = async (ctx)=>{
+    console.log("删除角色");
     var roleInfo = ctx.request.body;
     var _id = roleInfo._id;
+    console.log("删除角色");
     var rs = await new Promise((resolve,reject)=>{
         Role.remove({_id:_id},(err,data)=>{
             if(err) {
