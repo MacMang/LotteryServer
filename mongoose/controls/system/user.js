@@ -20,8 +20,6 @@ exports.signin = async (ctx)=>{
     let user = ctx.request.body;
     let username = user.accountName;
     let password = user.password;
-    console.log("登录用户名"+username);
-    console.log("登录密码"+password);
     // console.log(password);
     //     var parentid = mongoose.Types.ObjectId(permission.parentid);
     var rs = await new Promise((resolve,reject)=>{

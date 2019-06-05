@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "0fe8aec4-a2b5-41d0-97eb-b46e5a169af9",
+		"name": "webapp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "注册",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiem10IiwiZXhwIjoxNTU5NDQ4ODcwLCJpYXQiOjE1NTkzNjI0NzB9.vzfc3HAcuNq2YFPIgRBExZYX1HZ7nLRzF0h05mcfWv8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "zmt",
+							"description": "用户名",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"description": "密码",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3333/webapp/account/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"webapp",
+						"account",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "登录",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "loginType",
+							"value": "phone",
+							"description": "登录类型/phone/email/username",
+							"type": "text"
+						},
+						{
+							"key": "loginValue",
+							"value": "18822898732",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"description": "密码",
+							"type": "text"
+						},
+						{
+							"key": "avatar",
+							"value": "",
+							"description": "头像地址",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3333/webapp/account/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"webapp",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

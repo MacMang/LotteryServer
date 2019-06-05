@@ -14,4 +14,9 @@ router.use("/system",systemRouter.routes(),systemRouter.allowedMethods())
 var gameManageRouter = require('./GameManage/index');
 // console.log(gameManageRouter);
 router.use('/gameManage',gameManageRouter.routes(),gameManageRouter.allowedMethods())
+
+//webapp前端管理
+const webappRouter = require("./webapp")
+router.use("/webapp",webappRouter.routes(),webappRouter.allowedMethods());
 module.exports = router;
+

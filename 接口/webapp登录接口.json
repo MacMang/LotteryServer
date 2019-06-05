@@ -1,0 +1,13 @@
+{
+  "message": "登录成功",
+  "success": true,
+  "data": {
+    "avatar": "",
+    "Balance": 0,
+    "_id": "5cf2873bb3e7a1260023f006",
+    "username": "zmt",
+    "email": "mengtuo@outlook.com",
+    "phone": "18822898732",
+    "__v": 0
+  }
+}
